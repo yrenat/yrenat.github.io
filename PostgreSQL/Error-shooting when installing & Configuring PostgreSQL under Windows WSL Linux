@@ -1,0 +1,44 @@
+PRE REQ:
+
+1. Windows 11 Home Edition & WSL2 Linux Ubuntu 22.04.2 LTS
+
+2. PostgreSQL & PGAdmin already installed in Windows OS, and PostgreSQL installed in     Linux OS (further config is not required, only basic installation commands are needed)
+
+ERRORS: 
+
+1. 
+
+command input: 
+
+psql -U postgres
+error generated:
+
+psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: FATAL:  Peer authentication failed for user "postgres"
+possible causes:
+
+(1). System username and PostgreSQL database username are seperated and stored in seperate doamains, where WSL is defaulted to load current username while database username is set default to be "postgres"
+
+(2). PostgreSQL authentication is wrongly set and current user has no access to wanted database
+
+feasible solutions (one-to-one):
+
+(1). 
+
+sudo -u postgres psql
+sudo command with -u flag forces psql to run with username "postgres"
+
+(2).
+
+cd to pg_hba.conf, which normally locates in:
+
+/etc/postgresql/14/main/pg_ident.conf
+change this line:
+
+local   all             all                                     peer
+into:
+
+local   all             all                                     md5
+or:
+
+local   all             all                                     all
+where md5/all grants access to all users. 
