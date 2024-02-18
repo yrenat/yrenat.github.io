@@ -1,0 +1,40 @@
+Abstract:
+
+Windows WSL has long been renowned for powerful UNIX-like performance with lightwight OS. It also waived users from sophisticated network and other embedded configurations as WSL Linux shared same hardware sources with Windows. However, the vague design and layout of WSL is fatal for cross-platform cooperation, e.g. pgSQL database sharing and collaboration. This article tries to argue one possible solution for this demand.
+
+Pre-Req:
+
+Windows 11 Home Edition & WSL2 Linux Ubuntu 22.04.2 LTS
+
+and:
+
+PostgreSQL database completed in WSL
+
+Relevant server and database settings completed in Windows
+
+Method:
+
+Two main APIs by pgSQL are used: pg_dump & psql, where pg_dump squeezes staff into .sql file and pg_restore unpacks .sql file back to database.
+
+First, pg_dump
+
+pg_dump -U postgres -h localhost -p 5432 -d db_name -format=custom -f db_name.sql
+where user is set as "postgres", host as "localhost", port as "5432" by pg_dump flags (all as default). Notice that "format" flag is set as custom, because the output is defaulted to be .txt, which is uninterpretable by psql. You can give specific fiel location as well for -f flag.
+
+.sql file is readable cross-platformly, making it key media in database transferring. 
+
+Second, psql
+
+ psql -U postgres -p 5432  -d db_name -f db_name.sql
+psql command restores database from db_name.sql and the default location is in "postgres".
+
+Finally, power BI
+
+Go to the top toolbar and find "Get Data", then "More..." in the dropdown menu, then "Database" in the sidebar and finally, "PostgreSQL Database" and select "Connect". 
+
+
+
+Note that in the following menu, server should be written as
+
+"localhost" or "127.0.0.1"
+instead of the name of your real server (kinds of like a bug?). Then tick the boxes that you want to import and then, finished!
