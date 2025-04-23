@@ -23,6 +23,8 @@
       max-width: 95vw;
     }
     img {
+      display: block;
+      margin: 1.2em auto 0.5em auto;
       max-width: 90vw;
       max-height: 60vh;
       border-radius: 10px;
@@ -34,7 +36,7 @@
       margin-bottom: 1em;
     }
     .blurness-control {
-      margin: 1.5em 0 1em 0;
+      margin: 1.2em 0 1em 0;
       font-size: 1.1em;
     }
     select {
@@ -55,7 +57,7 @@
   <div class="container">
     <h1>The Red Mansion</h1>
     <div class="blurness-control">
-      <label for="blurness">Screen Time Today (hour):</label>
+      <label for="blurness">Screen Time Today:</label>
       <select id="blurness">
         <option value="0">0 (None)</option>
         <option value="1">1</option>
@@ -71,8 +73,10 @@
       </select>
     </div>
     <img id="redMansion" src="red-mansion.jpg" alt="Red Mansion">
-    <p>This is a demo of <b>red-mansion.jpg</b> from the repository root.<br>
-    Adjust the dropdown to control the blurriness!</p>
+    <p>
+      This is a demo of <b>red-mansion.jpg</b> from the repository root.<br>
+      Adjust <b>Screen Time Today</b> to change the blurriness!
+    </p>
   </div>
   <script>
     const img = document.getElementById('redMansion');
@@ -81,6 +85,8 @@
       const val = Number(this.value);
       img.style.filter = val === 0 ? 'none' : `blur(${val}px)`;
     });
+    // Initialize blur in case the default is not 0
+    img.style.filter = 'none';
   </script>
 </body>
 </html>
